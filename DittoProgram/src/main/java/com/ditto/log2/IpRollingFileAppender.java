@@ -14,7 +14,7 @@
  * See the license for the specific language governing permissions and
  * limitations under the license.
  */
-package com.ditto.log;
+package com.ditto.log2;
 
 import com.ditto.utils.IpUtil;
 import com.ditto.utils.ReadOuterFileUtils;
@@ -115,10 +115,17 @@ public final class IpRollingFileAppender extends AbstractOutputStreamAppender<Ro
                 LOGGER.error("RollingFileAppender '{}': No file name pattern provided.", getName());
                 return null;
             }
-            String taskId = ReadOuterFileUtils.getProperty("fmStatTaskId");
+            String taskId = ReadOuterFileUtils.getProperty("taskId");
             fileName = fileName.replaceAll("nodeIp", "taskId_" + taskId + "_node" + IpUtil.getIpSuffix());
             filePattern = filePattern.replaceAll("nodeIp", "taskId_" + taskId + "_node" + IpUtil.getIpSuffix());
-
+            //项目自定义配置文件路径
+            String tmpFileName = fileName.substring(fileName.lastIndexOf("/"));
+            String tmpFilePattern = filePattern.substring(filePattern.lastIndexOf("/"));
+            String logFilePath = ReadOuterFileUtils.getProperty("logFilePath");
+            if (logFilePath != null){
+                fileName = logFilePath + "program"+ tmpFileName;
+                filePattern = tmpFilePattern + "program" + tmpFileName;
+            }
             if (policy == null) {
                 LOGGER.error("RollingFileAppender '{}': No TriggeringPolicy provided.", getName());
                 return null;

@@ -7,7 +7,8 @@ import com.ditto.entity.ActionRecordEntity;
 import com.ditto.service.ActionRecordService;
 import com.ditto.utils.DocUtil;
 import com.ditto.utils.R;
-import com.mipt.util.StatUtils;
+import com.mipt.util.fmCommonStat.StatLogUtils;
+import com.mipt.util.fmCommonStat.StatQueryUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.LineIterator;
 import org.apache.logging.log4j.LogManager;
@@ -162,7 +163,9 @@ public class DevController {
 	@ResponseBody
 	public R test(){
 		LOGGER.info("testLog");
-		StatUtils.stat("aaaaaaaaaaaa");
+		StatLogUtils.stat("aaaaaaaaaaaa");
+		int count = StatQueryUtils.count(1, new HashMap<>(), new HashMap<>(), new HashMap<>());
+		System.out.println(count);
 		return R.ok();
 	}
 

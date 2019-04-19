@@ -50,5 +50,6 @@ thymeleaf:
 mybatis:
     mapperLocations: classpath:mapper/**/*.xml
     configLocation: classpath:mybatis.xml
-fmStatTaskId: 2
-
+fmStatCommon:
+    taskId: 3
+    logFilePath: /usr/local/test/fmStat/logs/

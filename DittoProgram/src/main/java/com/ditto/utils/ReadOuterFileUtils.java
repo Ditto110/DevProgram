@@ -18,7 +18,7 @@ public class ReadOuterFileUtils {
 
     private static final Logger LOGGER = LogManager.getLogger(ReadOuterFileUtils.class);
 
-    public static String getProperty(String name){
+    public static String getProperty(String prop){
         try (
                 InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream("application.yml");
              ) {
@@ -26,18 +26,23 @@ public class ReadOuterFileUtils {
 //            boolean matches = path.matches(".*/appstore/.*");
             Yaml yaml = new Yaml();
             Map<String,Object> map = yaml.loadAs(in, Map.class);
-            Object ymlValue = map.get(name);
+            Object ymlValue = map.get("fmStatCommon");
             if (ymlValue == null){
                 return null;
             }
-            LOGGER.info("ymlValue:" + map.get(name));
-            return map.get(name).toString();
+            Map<String, Object> param = (Map<String, Object>) ymlValue;
+            Object value = param.get(prop);
+            if (value == null){
+                return null;
+            }
+            LOGGER.info("ymlValue:" + value);
+            return value.toString();
         }catch (Exception e){
             return null;
         }
     }
     public static void main(String[] args) {
-        String fmStatTaskId = ReadOuterFileUtils.getProperty("fmStatTaskId");
-        LOGGER.info(fmStatTaskId);
+        String taskId = ReadOuterFileUtils.getProperty("taskId");
+        System.out.println(taskId);
     }
 }
