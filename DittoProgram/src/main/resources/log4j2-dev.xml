@@ -18,7 +18,7 @@
 		<AsyncRoot level="info" includeLocation="true">
 			<appender-ref ref="Console" />
 		</AsyncRoot>
-		<AsyncLogger name="com.mipt.util.StatUtils" includeLocation="false" level="INFO" additivity="false">
+		<AsyncLogger name="com.mipt.util.fmCommonStat.StatLogUtils" includeLocation="false" level="INFO" additivity="false">
 			<AppenderRef ref="logstat" />
 		</AsyncLogger>
 	</loggers>
