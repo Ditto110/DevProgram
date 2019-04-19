@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="info" packages="com.mipt.log">
+	<appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY" />
+			<PatternLayout pattern="%d{yyyy.MM.dd HH:mm:ss.SSS} %-5level %class{36} %L %M - %m%xEx%n" />
+		</Console>
+		<IpRollingFile name="logstat"
+					   fileName="/usr/local/mobee/data/appstore/logs/fmStat_log_nodeIp.log"
+					   filePattern="/usr/local/mobee/data/appstore/logs/fmStat_nodeIp_%d{yyyy-MM-dd}.log">
+			<PatternLayout pattern="%d{HH:mm:ss}$%m%xEx%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" modulate="true" />
+			</Policies>
+		</IpRollingFile>
+	</appenders>
+	<loggers>
+		<AsyncRoot level="info" includeLocation="true">
+			<appender-ref ref="Console" />
+		</AsyncRoot>
+		<AsyncLogger name="com.mipt.util.StatUtils" includeLocation="false" level="INFO" additivity="false">
+			<AppenderRef ref="logstat" />
+		</AsyncLogger>
+	</loggers>
+</configuration>
