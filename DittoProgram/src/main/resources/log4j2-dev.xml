@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration status="info" packages="com.mipt.log">
+<configuration status="info" packages="com.mipt.fm.log">
 	<appenders>
 		<Console name="Console" target="SYSTEM_OUT">
 			<ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY" />
@@ -18,7 +18,7 @@
 		<AsyncRoot level="info" includeLocation="true">
 			<appender-ref ref="Console" />
 		</AsyncRoot>
-		<AsyncLogger name="com.mipt.util.fmCommonStat.StatLogUtils" includeLocation="false" level="INFO" additivity="false">
+		<AsyncLogger name="com.mipt.fm.util.StatLogUtils" includeLocation="false" level="INFO" additivity="false">
 			<AppenderRef ref="logstat" />
 		</AsyncLogger>
 	</loggers>

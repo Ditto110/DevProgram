@@ -1,6 +1,6 @@
 package com.ditto.service.impl;
 
-import com.mipt.util.fmCommonStat.IStatCommonService;
+import com.mipt.fm.util.IStatCommonService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

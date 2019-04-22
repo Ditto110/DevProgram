@@ -1,18 +1,16 @@
 package com.ditto;
 
-import com.mipt.util.fmCommonStat.SpringApplicationUtil;
+import com.ditto.dynamicdatasource.DynamicDataSourceRegister;
+import com.mipt.fm.util.SpringApplicationUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.ditto.dynamicdatasource.DynamicDataSourceRegister;
-
 @SpringBootApplication
-@Import({DynamicDataSourceRegister.class,SpringApplicationUtil.class})
+@Import({DynamicDataSourceRegister.class, SpringApplicationUtil.class})
 @EnableTransactionManagement
 public class MainApplication extends SpringBootServletInitializer {
 	public static void main(String[] args) {

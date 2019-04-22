@@ -6,6 +6,7 @@ import org.yaml.snakeyaml.Yaml;
 
 import java.io.InputStream;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * @author SDT14325
@@ -18,31 +19,22 @@ public class ReadOuterFileUtils {
 
     private static final Logger LOGGER = LogManager.getLogger(ReadOuterFileUtils.class);
 
-    public static String getProperty(String prop){
+    public static String getProperty(String propName){
         try (
-                InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream("application.yml");
-             ) {
+                InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream("init.properties");
+        ) {
             //对项目名称确认
 //            boolean matches = path.matches(".*/appstore/.*");
-            Yaml yaml = new Yaml();
-            Map<String,Object> map = yaml.loadAs(in, Map.class);
-            Object ymlValue = map.get("fmStatCommon");
-            if (ymlValue == null){
-                return null;
-            }
-            Map<String, Object> param = (Map<String, Object>) ymlValue;
-            Object value = param.get(prop);
-            if (value == null){
-                return null;
-            }
-            LOGGER.info("ymlValue:" + value);
-            return value.toString();
+            Properties prop = new Properties();
+            prop.load(in);
+            LOGGER.info("property:" + prop.getProperty(propName));
+            return prop.getProperty(propName);
         }catch (Exception e){
             return null;
         }
     }
     public static void main(String[] args) {
-        String taskId = ReadOuterFileUtils.getProperty("taskId");
+        String taskId = ReadOuterFileUtils.getProperty("fmStatLogFilePath");
         System.out.println(taskId);
     }
 }

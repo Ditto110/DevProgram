@@ -7,8 +7,8 @@ import com.ditto.entity.ActionRecordEntity;
 import com.ditto.service.ActionRecordService;
 import com.ditto.utils.DocUtil;
 import com.ditto.utils.R;
-import com.mipt.util.fmCommonStat.StatLogUtils;
-import com.mipt.util.fmCommonStat.StatQueryUtils;
+import com.mipt.fm.util.StatLogUtils;
+import com.mipt.fm.util.StatQueryUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.LineIterator;
 import org.apache.logging.log4j.LogManager;
@@ -17,7 +17,6 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -163,8 +162,10 @@ public class DevController {
 	@ResponseBody
 	public R test(){
 		LOGGER.info("testLog");
-		StatLogUtils.stat("aaaaaaaaaaaa");
+		StatLogUtils.stat("log content");
 		int count = StatQueryUtils.count(1, new HashMap<>(), new HashMap<>(), new HashMap<>());
+		int countPage = StatQueryUtils.countPage(1, new HashMap<>(), new HashMap<>(), new HashMap<>(), new HashMap<>());
+		List<Map<String, Object>> list = StatQueryUtils.listData(1, new HashMap<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(),0, 10);
 		System.out.println(count);
 		return R.ok();
 	}

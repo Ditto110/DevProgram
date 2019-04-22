@@ -1,4 +1,4 @@
-/*
+package com.ditto.log2;/*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements. See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -14,10 +14,10 @@
  * See the license for the specific language governing permissions and
  * limitations under the license.
  */
-package com.ditto.log2;
 
-import com.ditto.utils.IpUtil;
-import com.ditto.utils.ReadOuterFileUtils;
+import com.mipt.fm.util.IpUtil;
+import com.mipt.fm.util.ReadOuterFileUtils;
+import com.mipt.fm.util.StatLogUtils;
 import org.apache.logging.log4j.core.Appender;
 import org.apache.logging.log4j.core.Filter;
 import org.apache.logging.log4j.core.Layout;
@@ -51,7 +51,7 @@ public final class IpRollingFileAppender extends AbstractOutputStreamAppender<Ro
 
     /**
      * Builds FileAppender instances.
-     * 
+     *
      * @param <B>
      *            This builder class
      */
@@ -72,11 +72,11 @@ public final class IpRollingFileAppender extends AbstractOutputStreamAppender<Ro
         @PluginBuilderAttribute
         private boolean locking;
 
-        @PluginElement("Policy") 
+        @PluginElement("Policy")
         @Required
         private TriggeringPolicy policy;
-        
-        @PluginElement("Strategy") 
+
+        @PluginElement("Strategy")
         private RolloverStrategy strategy;
 
         @PluginBuilderAttribute
@@ -110,22 +110,20 @@ public final class IpRollingFileAppender extends AbstractOutputStreamAppender<Ro
                 LOGGER.error("RollingFileAppender '{}': No file name provided.", getName());
                 return null;
             }
-            
+
             if (filePattern == null) {
                 LOGGER.error("RollingFileAppender '{}': No file name pattern provided.", getName());
                 return null;
             }
-            String taskId = ReadOuterFileUtils.getProperty("taskId");
+            String taskId = ReadOuterFileUtils.getProperty(StatLogUtils.FM_STAT_TASK_ID);
             fileName = fileName.replaceAll("nodeIp", "taskId_" + taskId + "_node" + IpUtil.getIpSuffix());
             filePattern = filePattern.replaceAll("nodeIp", "taskId_" + taskId + "_node" + IpUtil.getIpSuffix());
-            //项目自定义配置文件路径
             String tmpFileName = fileName.substring(fileName.lastIndexOf("/"));
             String tmpFilePattern = filePattern.substring(filePattern.lastIndexOf("/"));
-            String logFilePath = ReadOuterFileUtils.getProperty("logFilePath");
-            if (logFilePath != null){
-                fileName = logFilePath + "program"+ tmpFileName;
-                filePattern = tmpFilePattern + "program" + tmpFileName;
-            }
+            //重定义项目自定义配置文件路径
+            String logFilePath = ReadOuterFileUtils.getProperty(StatLogUtils.FM_STAT_LOG_PATH) + "/taskId" + taskId + "/";
+            fileName = logFilePath + tmpFileName;
+            filePattern = tmpFilePattern + tmpFileName;
             if (policy == null) {
                 LOGGER.error("RollingFileAppender '{}': No TriggeringPolicy provided.", getName());
                 return null;
@@ -246,7 +244,7 @@ public final class IpRollingFileAppender extends AbstractOutputStreamAppender<Ro
         }
 
     }
-    
+
     private static final int DEFAULT_BUFFER_SIZE = 8192;
 
     private final String fileName;
@@ -356,7 +354,7 @@ public final class IpRollingFileAppender extends AbstractOutputStreamAppender<Ro
             final String advertise,
             final String advertiseUri,
             final Configuration config) {
-            // @formatter:on
+        // @formatter:on
         final int bufferSize = Integers.parseInt(bufferSizeStr, DEFAULT_BUFFER_SIZE);
         // @formatter:off
         return newBuilder()
